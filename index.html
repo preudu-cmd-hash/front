@@ -6,14 +6,26 @@
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-  <title>Primeiro HTML</title>
+  <title>Home</title>
 </head>
 
-<body>
-  <div id="app">
-    <h1 class="text-3xl font-bold underline text-red-500">
-      Hello world!
-    </h1>
+<body class="bg-gray-900 p-8">
+  <div class="max-w-2xl mx-auto p-6">
+    <header class="flex justify-between items-center mb-8 bg-gray-600 p-4 rounded shadow-md">
+      <h1 class="text-2xl font-bold ">Blog Foda</h1>
+      <nav id="NAValha"></nav>
+    </header>
+    <main>
+      <h2 class="text-xl font-semibold mb-4 text-blue-100">Posts recentes</h2>
+      <div id="post-container" class="grid gap-4 text-blue-100">Carregando...</div>
+    </main>
+    <!-- <div class="flex justify-between items-center mb-8">
+      <h1 id="welcomeTitle" class="text-3xl font-bold underline text-redd-500">
+        Carregando...
+      </h1>
+      <p id="userRole" class="text-sm font-bold text-blue-600 uppercase"></p>
+    </div>
+    <button class="">Sair</button> -->
   </div>
   <script type="module" src="/src/main.ts"></script>
 </body>
