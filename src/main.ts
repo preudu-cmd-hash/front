@@ -1,4 +1,4 @@
-const API_URL = import.meta.env.VITE_API_URL;
+import { createIcons, Trash2, LogOut } from "lucide";
 
 export enum UserRole {
   ADMIN = "admin",
@@ -21,19 +21,40 @@ interface Post {
   user: User;
 }
 
-const token = localStorage.getItem("@token");
-const userStorage = JSON.parse(localStorage.getItem("@user"));
-const user = userStorage ?? null;
+const API_URL = import.meta.env.VITE_API_URL;
+
+const getAuthData = () => {
+  const token = localStorage.getItem("@token");
+  const userStorage = JSON.parse(localStorage.getItem("@user"));
+  const user = userStorage ?? null;
+  return { token, user };
+};
 
 const navArea = document.getElementById("NAValha")!;
 const postContainter = document.getElementById("post-container")!;
 
 const setupHeader = () => {
+  const { token, user } = getAuthData();
   if (token && user) {
-    navArea.innerHTML = /*html*/ `<span class="mr-4 text-blue-300"> Olá, <strong> ${user.name}</strong></span> <button id="btnLogout" class="text-red-300 hover:text-red-500 hover:underline font-bold">Sair</button>`;
+    navArea.innerHTML = /*html*/ `
+    <div class="flex items-center gap-4">
+      <span class="mr-4 text-blue-300"> Olá, <strong> ${user.name}</strong></span>
+      <button id="btnLogout" class="p-2 rounded-lg bg-red-50 text-red-500 hover:bg-red-100 transition-all"><i data-Lucide="log-out" class="w-5 h-5"></i></button>
+    </div>`;
+
+    const logOutBtn = document.getElementById("btnLogout");
+    logOutBtn.addEventListener("click", handleLogout);
   } else {
     navArea.innerHTML = /*html*/ `<a href="/login.html" class="bg-black hover:bg-gray-400 text-blue-100 px4 py-2 rounded">Login</a>`;
   }
+};
+
+const handleLogout = () => {
+  localStorage.removeItem("@token");
+  localStorage.removeItem("@user");
+
+  setupHeader();
+  fetchPosts();
 };
 
 const fetchPosts = async () => {
@@ -48,6 +69,8 @@ const fetchPosts = async () => {
 };
 
 const renderPosts = (posts: Post[]) => {
+  const { user } = getAuthData();
+
   postContainter.innerHTML = "";
 
   posts.forEach((post) => {
@@ -57,20 +80,61 @@ const renderPosts = (posts: Post[]) => {
 
     const isOwner = user && user.id === post.user.id;
     const isAdmin = user && user.role === UserRole.ADMIN;
-    const canDelete = isOwner || isOwner;
-    const deleteBtn = canDelete ? /*html*/ `
-    <button onClick=${deletePost(post.id)} class="group p-2 rounded-lg hover:bg-red-100 hover:test-400"><i data-lucide="trash-2" class="w-5 h-5"></i></button>
-    `
+    const canDelete = isOwner || isAdmin;
 
     card.innerHTML = /*html*/ `
     <div>
-        <h3 class="font-bold text-lg">${post.title}</h3>
-        <p class="text-blue-300">${post.content}</p>
-        <span class="text-sm text-blue-400">${post.user.firstName}</span>
+    <h3 class="font-bold text-lg">${post.title}</h3>
+    <p class="text-blue-300">${post.content}</p>
+    <span class="text-sm text-blue-400">${post.user.firstName}</span>
     </div>
+    <div id="btn-container-${post.id}"></div>
     `;
+
+    if (canDelete) {
+      const btn = document.createElement("button");
+      btn.className =
+        "group p-2 rounded-lg hover:bg-red-100 hover:text-red-600";
+      btn.innerHTML = /*html*/ `
+      <i data-lucide="trash-2" class="w-5 h-5"></i>
+      `;
+      btn.addEventListener("click", () => deletePost(post.id));
+      card.querySelector(`#btn-container-${post.id}`)?.appendChild(btn);
+    }
+
     postContainter.appendChild(card);
+    createIcons({
+      icons: {
+        Trash2,
+        LogOut,
+      },
+    });
   });
+};
+
+const deletePost = async (id: number) => {
+  const { token } = getAuthData();
+
+  if (!confirm("Realmente deseja apagar esse post?")) return;
+
+  try {
+    const response = await fetch(`${API_URL}/api/posts/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (response.ok) {
+      fetchPosts();
+    } else {
+      const error = await response.json();
+      alert(`Erro: ${error.message || "Sem permissão para deletar."}`);
+    }
+  } catch (error) {
+    alert("Erro de conexão com o servidor.");
+  }
 };
 
 setupHeader();
