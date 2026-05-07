@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>Cadastro</title>
+</head>
+<body class="bg-gray-900 flex items-center justify-center h-screen">
+    <div class="bg-white p-8 rounded shadow-md w-96">
+        <h2 class="text-2xl font-medium mb-6 text-center">Crie sua conta</h2>
+        <form id="registerForm" class="space-y-4">
+            <input type="nome" id="nome" placeholder="primeiro nome" class="w-full border p-2 rounded">
+            <input type="sobreNome" id="sobreNome" placeholder="sobrenome" class="w-full border p-2 rounded">
+            <input type="email" id="email" placeholder="email" class="w-full border p-2 rounded">
+            <input type="telefone" id="telefone" placeholder="telefone" class="w-full border p-2 rounded">
+            <input minlength="6" type="password" id="password" placeholder="senha" class="w-full border p-2 rounded">
+            <button type="submit" class="w-full bg-blue-800 text-white p-2 rounded hover:bg-blue-900">Cadastrar</button>
+        </form>
+        <div class="mt-4 text-center">
+            <a href="login.html" class="text-sm text-gray-500 hover:underline">Voltar para o Login</a>
+        </div>
+    </div>
+
+    <script type="module" src="/src/cadastro.ts"></script>
+</body>
+</html>

@@ -1,6 +1,6 @@
 import { createIcons, Trash2, LogOut } from "lucide";
 
-export enum UserRole {
+enum UserRole {
   ADMIN = "admin",
   USER = "user",
 }
@@ -10,7 +10,7 @@ interface User {
   firstName: string;
   lastName: string;
   email: string;
-  role: string;
+  role: UserRole;
   phone: string;
 }
 
@@ -45,7 +45,7 @@ const setupHeader = () => {
     const logOutBtn = document.getElementById("btnLogout");
     logOutBtn.addEventListener("click", handleLogout);
   } else {
-    navArea.innerHTML = /*html*/ `<a href="/login.html" class="bg-black hover:bg-gray-400 text-blue-100 px4 py-2 rounded">Login</a>`;
+    navArea.innerHTML = /*html*/ `<a href="/login.html" class="bg-black hover:bg-gray-400 text-blue-100 px-4 py-2 rounded">Login</a>`;
   }
 };
 
