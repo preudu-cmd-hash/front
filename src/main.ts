@@ -25,8 +25,8 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 const getAuthData = () => {
   const token = localStorage.getItem("@token");
-  const userStorage = JSON.parse(localStorage.getItem("@user"));
-  const user = userStorage ?? null;
+  const userStorage = localStorage.getItem("@user");
+  const user = userStorage ? JSON.parse(userStorage) : null;
   return { token, user };
 };
 
@@ -43,7 +43,9 @@ const setupHeader = () => {
     </div>`;
 
     const logOutBtn = document.getElementById("btnLogout");
-    logOutBtn.addEventListener("click", handleLogout);
+    if (logOutBtn) {
+      logOutBtn.addEventListener("click", handleLogout);
+    }
   } else {
     navArea.innerHTML = /*html*/ `<a href="/login.html" class="bg-black hover:bg-gray-400 text-blue-100 px-4 py-2 rounded">Login</a>`;
   }
@@ -65,6 +67,21 @@ const fetchPosts = async () => {
     renderPosts(posts);
   } catch (error) {
     postContainter.innerHTML = /*html*/ `<p class="text-red-300">Erro ao carregar o post</p>`;
+  }
+};
+
+const renderNewPostButton = () => {
+  const { user } = getAuthData();
+  const newPostContainer = document.getElementById("btn-container");
+
+  if (!newPostContainer) return;
+
+  if (user) {
+    newPostContainer.innerHTML = /*html*/ `
+    <a class="bg-blue-900 hover:bg-blue-800 text-white px-4 py-2 rounded" href="novoPost.html">Novo post</a>
+    `;
+  } else {
+    newPostContainer.innerHTML = "";
   }
 };
 
@@ -138,4 +155,5 @@ const deletePost = async (id: number) => {
 };
 
 setupHeader();
+renderNewPostButton();
 fetchPosts();
