@@ -7,6 +7,13 @@
     <title>Novo Post</title>
 </head>
 <body class="bg-gray-900 p-8">
-    Esse é um novo post
+    <div class="bg-white p-8 rounded shadow-md w-96 flex items-center justify-center">
+        <h2 class=" text-black text-xl"></h2>
+        <form id="new-postForm" class="space-y-4">
+            <input type="title" id="title" placeholder="Título" class="w-full border p-2 rounded text-black">
+            <input type="content" id="content" placeholder="No que está pensando?" class="w-full border p-2 rounded text-black">
+            <button type="submit" class="w-full bg-blue-800 text-white p-2 rounded hover:bg-blue-900">Postar</button>
+        </form>
+    </div>
 </body>
 </html>
