@@ -1,6 +1,11 @@
-import { getAuthData } from "./main";
-
 const API_URL = import.meta.env.VITE_API_URL;
+
+const getAuthData = () => {
+  const token = localStorage.getItem("@token");
+  const userStorage = localStorage.getItem("@user");
+  const user = userStorage ? JSON.parse(userStorage) : null;
+  return { token, user };
+};
 
 const form = document.getElementById("new-postForm") as HTMLFormElement;
 

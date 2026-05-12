@@ -6,14 +6,15 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <title>Novo Post</title>
 </head>
-<body class="bg-gray-900 p-8">
-    <div class="bg-white p-8 rounded shadow-md w-96 flex items-center justify-center">
-        <h2 class=" text-black text-xl"></h2>
+<body class="bg-gray-900 flex items-center justify-center h-screen">
+    <div class="bg-white p-8 rounded shadow-md w-96">
+        <h2 class="text-2xl text-black font-semibold flex justify-center pb-4 m-3">Novo post</h2>
         <form id="new-postForm" class="space-y-4">
             <input type="title" id="title" placeholder="Título" class="w-full border p-2 rounded text-black">
             <input type="content" id="content" placeholder="No que está pensando?" class="w-full border p-2 rounded text-black">
             <button type="submit" class="w-full bg-blue-800 text-white p-2 rounded hover:bg-blue-900">Postar</button>
         </form>
     </div>
+    <script type="module" src="src/novoPost.ts"></script>
 </body>
 </html>

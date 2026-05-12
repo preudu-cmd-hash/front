@@ -23,7 +23,7 @@ interface Post {
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-export const getAuthData = () => {
+const getAuthData = () => {
   const token = localStorage.getItem("@token");
   const userStorage = localStorage.getItem("@user");
   const user = userStorage ? JSON.parse(userStorage) : null;
